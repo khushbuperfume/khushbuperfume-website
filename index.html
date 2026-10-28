@@ -1,7 +1,261 @@
-<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17140f"><title>Khushbu Perfume | অনলাইন অর্ডার</title><link rel="stylesheet" href="/style.css"></head><body>
-<header><div class="head"><img src="/khushbu-logo.png" alt="Khushbu logo"><div><h1>KHUSHBU PERFUME</h1><p>Your Sunnah Lifestyle Companion</p></div><a class="adminLink" href="/admin">স্টাফ লগইন</a></div></header>
-<section class="hero"><div><span class="eyebrow">খুশবু পারফিউম · যশোর</span><h2>আপনার পছন্দের সুগন্ধি<br>এখন অর্ডার করুন অনলাইনে</h2><p>পণ্য বেছে নিন, ঠিকানা দিন—অর্ডারটি আমরা নিশ্চিত করব।</p></div><img src="/khushbu-shop.jpg" alt="খুশবু পারফিউম শোরুম"></section>
-<main><div class="sectionTitle"><div><h2>আমাদের পণ্য</h2><p>পছন্দের পণ্য কার্টে যোগ করুন</p></div><div class="cartBadge">কার্ট: <b id="cartCount">০</b></div></div><div id="products" class="products"><p>পণ্য লোড হচ্ছে…</p></div>
-<section class="checkout"><div><h2>অর্ডার সম্পন্ন করুন</h2><p class="muted">আপনার সঠিক তথ্য দিন। অর্ডার দেওয়ার পর ফোনে নিশ্চিত করা হতে পারে।</p><div id="cartSummary" class="summary">কার্টে এখনো পণ্য যোগ করা হয়নি।</div></div>
-<form id="orderForm"><label>আপনার নাম<input name="customerName" required maxlength="100" autocomplete="name"></label><label>মোবাইল নম্বর<input name="phone" required maxlength="30" autocomplete="tel" placeholder="01XXXXXXXXX"></label><label>সম্পূর্ণ ডেলিভারি ঠিকানা<textarea name="address" required maxlength="500" rows="3" autocomplete="street-address"></textarea></label><label>অতিরিক্ত নির্দেশনা (ঐচ্ছিক)<textarea name="note" maxlength="500" rows="2"></textarea></label><button class="primary" type="submit">অর্ডার কনফার্মের জন্য পাঠান</button><p class="tiny">অর্ডার পাঠালে আমাদের টিম অর্ডার যাচাই করে আপনার সঙ্গে যোগাযোগ করবে।</p><div id="result" role="status"></div></form></section>
-</main><footer><b>খুশবু পারফিউম</b><br>দোকান নং ০৫, রংধনু সুপার মার্কেট, জামরুলতলা বাজার, হাইকোর্ট মোড়, সদর, যশোর</footer><script src="/store.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10251d">
+<title>Khushbu Perfume | খুশবু পারফিউম</title>
+<meta name="description" content="খুশবু পারফিউম — আপনার পছন্দের সুগন্ধি ও আতর অর্ডার করুন অনলাইনে।">
+<style>
+*{box-sizing:border-box}
+:root{--green:#123b2b;--gold:#d7b46a;--cream:#faf7ef;--ink:#20271f}
+body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:var(--cream);color:var(--ink);line-height:1.7}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.topbar{background:#0b2118;color:#fff;text-align:center;padding:8px;font-size:13px}
+header{background:var(--green);color:white;padding:16px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;object-fit:contain;border-radius:50%;background:#fff}
+.brand h1{font-size:22px;margin:0;color:#f3d69a}
+.brand small{display:block;font-size:12px;color:#eee}
+.cart-btn,.btn{border:0;border-radius:8px;background:var(--gold);color:#14271c;padding:11px 17px;font-weight:bold}
+.hero{padding:58px 6%;background:linear-gradient(120deg,#102b20,#24533a);color:white;text-align:center}
+.hero .eyebrow{color:#f1d18b;letter-spacing:2px;font-size:13px}
+.hero h2{font-size:clamp(28px,6vw,45px);line-height:1.35;margin:10px auto;max-width:720px}
+.hero p{color:#eee;max-width:600px;margin:12px auto 22px}
+.hero .btn{display:inline-block}
+main{max-width:1100px;margin:auto;padding:28px 16px}
+.section-title{text-align:center;margin:12px 0 24px}
+.section-title h2{font-size:28px;color:var(--green);margin:0}
+.section-title p{margin:5px;color:#666}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.product{background:white;border:1px solid #e9e1d0;border-radius:14px;overflow:hidden;box-shadow:0 4px 15px #173a1b0b}
+.product-art{height:150px;background:linear-gradient(145deg,#e9ddbd,#f9f5e8);display:flex;align-items:center;justify-content:center;font-size:66px}
+.product-info{padding:15px}
+.product h3{margin:0;color:var(--green);font-size:19px}
+.product p{margin:6px 0;color:#666;font-size:14px}
+.price{font-size:21px;font-weight:bold;color:#8b6421;margin:10px 0}
+.product .btn{width:100%}
+.cart-box,.checkout{background:white;border:1px solid #e9e1d0;border-radius:14px;padding:20px;margin-top:28px}
+.cart-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
+.qty{display:flex;align-items:center;gap:9px}
+.qty button,.remove{border:1px solid #ddd;background:#f8f6f0;border-radius:5px;padding:3px 10px}
+.total{font-size:20px;font-weight:bold;color:var(--green);text-align:right;margin-top:15px}
+.checkout h2,.cart-box h2{margin-top:0;color:var(--green)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field input,.field textarea{width:100%;border:1px solid #ccc;border-radius:7px;padding:11px;background:#fff}
+.field textarea{min-height:90px;resize:vertical}
+.submit{width:100%;margin-top:18px;background:var(--green);color:white;border:0;border-radius:8px;padding:14px;font-weight:bold}
+.note{font-size:13px;color:#666}
+.empty{text-align:center;color:#777;padding:15px}
+.benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:28px 0}
+.benefit{background:#eee8d8;border-radius:10px;text-align:center;padding:16px}
+footer{background:#0b2118;color:white;text-align:center;padding:25px 15px;margin-top:30px}
+footer strong{color:#f3d69a}
+footer p{margin:5px}
+@media(max-width:520px){
+ header{padding:12px}
+ .brand h1{font-size:18px}
+ .hero{padding:42px 18px}
+ .fields{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .cart-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="topbar">🌿 আপনার সুগন্ধি, আপনার পছন্দ | সারা বাংলাদেশে অর্ডার</div>
+
+<header>
+  <a class="brand" href="#">
+    <img class="logo" src="khushbu-logo.png" alt="Khushbu Perfume"
+         onerror="this.style.display='none'">
+    <span>
+      <h1>KHUSHBU PERFUME</h1>
+      <small>Your Sunnah Lifestyle Companion</small>
+    </span>
+  </a>
+  <a href="#cart" class="cart-btn">🛒 কার্ট (<span id="cartCount">0</span>)</a>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">KHUSHBU PERFUME • JASHORE</div>
+  <h2>আপনার পছন্দের সুগন্ধি<br>এখন অর্ডার করুন অনলাইনে</h2>
+  <p>পছন্দের সুগন্ধি বেছে নিন, কার্টে যোগ করুন এবং আপনার ঠিকানা দিয়ে WhatsApp-এ অর্ডার পাঠান।</p>
+  <a class="btn" href="#products">🛍️ পণ্য দেখুন</a>
+</section>
+
+<main>
+  <div class="benefits">
+    <div class="benefit">🌸<br><strong>সুগন্ধির সংগ্রহ</strong></div>
+    <div class="benefit">📦<br><strong>সহজ অর্ডার</strong></div>
+    <div class="benefit">💬<br><strong>সরাসরি যোগাযোগ</strong></div>
+  </div>
+
+  <section id="products">
+    <div class="section-title">
+      <h2>আমাদের পণ্য</h2>
+      <p>আপনার পছন্দের সুগন্ধি বেছে নিন</p>
+    </div>
+    <div class="products" id="productList"></div>
+    <p class="note">দ্রষ্টব্য: নিচের পণ্যের নাম ও দাম নমুনা। বিক্রির আগে নিজের প্রকৃত পণ্য ও দাম বসিয়ে নেবেন।</p>
+  </section>
+
+  <section class="cart-box" id="cart">
+    <h2>🛒 আপনার শপিং কার্ট</h2>
+    <div id="cartItems"><p class="empty">এখনো কোনো পণ্য যোগ করা হয়নি।</p></div>
+    <div class="total">মোট: ৳<span id="cartTotal">0</span></div>
+  </section>
+
+  <section class="checkout" id="checkout">
+    <h2>অর্ডার সম্পন্ন করুন</h2>
+    <p>আপনার সঠিক তথ্য দিন। এরপর WhatsApp-এ অর্ডারের বিবরণ পাঠাতে পারবেন।</p>
+    <form id="orderForm">
+      <div class="fields">
+        <label class="field">আপনার নাম *
+          <input name="customer" required maxlength="100" placeholder="আপনার পুরো নাম">
+        </label>
+        <label class="field">মোবাইল নম্বর *
+          <input name="phone" required type="tel" maxlength="20" placeholder="01XXXXXXXXX">
+        </label>
+        <label class="field full">সম্পূর্ণ ডেলিভারি ঠিকানা *
+          <textarea name="address" required maxlength="500" placeholder="গ্রাম/এলাকা, উপজেলা, জেলা"></textarea>
+        </label>
+        <label class="field full">অতিরিক্ত নির্দেশনা (ঐচ্ছিক)
+          <textarea name="note" maxlength="500" placeholder="অর্ডার সম্পর্কে কিছু জানাতে চাইলে লিখুন"></textarea>
+        </label>
+      </div>
+      <button class="submit" type="submit">WhatsApp-এ অর্ডার পাঠান</button>
+      <p class="note">অর্ডার পাঠানোর আগে WhatsApp-এ পণ্যের বিবরণ দেখে নিন। অর্ডার নিশ্চিত করতে বিক্রেতার সঙ্গে কথা বলুন।</p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <strong>KHUSHBU PERFUME</strong>
+  <p>Your Sunnah Lifestyle Companion</p>
+  <p>খুশবু পারফিউম · যশোর, বাংলাদেশ</p>
+  <p>সুগন্ধিতে আপনার পছন্দের ছোঁয়া 🌿</p>
+</footer>
+
+<script>
+"use strict";
+
+/* নিজের প্রকৃত পণ্যের নাম ও দাম এখানে পরিবর্তন করুন */
+const products = [
+  {id:1,name:"প্রিমিয়াম আতর",desc:"প্রতিদিনের ব্যবহারের সুগন্ধি",price:150,icon:"🌿"},
+  {id:2,name:"আরাবিয়ান পারফিউম",desc:"মন মাতানো সুগন্ধি",price:350,icon:"🧴"},
+  {id:3,name:"উদ সুগন্ধি",desc:"আকর্ষণীয় উডি ঘ্রাণ",price:450,icon:"✨"},
+  {id:4,name:"স্পেশাল আতর",desc:"উপহার ও দৈনন্দিন ব্যবহারের জন্য",price:250,icon:"🌸"}
+];
+
+const cart = {};
+
+function money(n){return Number(n).toLocaleString("en-US");}
+
+function renderProducts(){
+  document.getElementById("productList").innerHTML=products.map(p=>`
+    <article class="product">
+      <div class="product-art" aria-hidden="true">${p.icon}</div>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="price">৳${money(p.price)}</div>
+        <button class="btn" type="button" onclick="addToCart(${p.id})">কার্টে যোগ করুন</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function addToCart(id){
+  cart[id]=(cart[id]||0)+1;
+  renderCart();
+}
+
+function changeQty(id,amount){
+  cart[id]=(cart[id]||0)+amount;
+  if(cart[id]<=0) delete cart[id];
+  renderCart();
+}
+
+function renderCart(){
+  const ids=Object.keys(cart);
+  let count=0,total=0;
+  ids.forEach(id=>{
+    const p=products.find(x=>x.id===Number(id));
+    if(p){count+=cart[id];total+=p.price*cart[id];}
+  });
+  document.getElementById("cartCount").textContent=count;
+  document.getElementById("cartTotal").textContent=money(total);
+
+  const box=document.getElementById("cartItems");
+  if(!ids.length){
+    box.innerHTML='<p class="empty">এখনো কোনো পণ্য যোগ করা হয়নি।</p>';
+    return;
+  }
+  box.innerHTML=ids.map(id=>{
+    const p=products.find(x=>x.id===Number(id));
+    return `<div class="cart-row">
+      <div><strong>${p.name}</strong><br>৳${money(p.price)} × ${cart[id]}</div>
+      <div class="qty">
+        <button type="button" onclick="changeQty(${p.id},-1)" aria-label="পরিমাণ কমান">−</button>
+        <span>${cart[id]}</span>
+        <button type="button" onclick="changeQty(${p.id},1)" aria-label="পরিমাণ বাড়ান">+</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+document.getElementById("orderForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const ids=Object.keys(cart);
+  if(!ids.length){
+    alert("আগে অন্তত একটি পণ্য কার্টে যোগ করুন।");
+    document.getElementById("products").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+  const whatsappNumber="8801619453132";
+
+  if(!/^8801[3-9]\d{8}$/.test(whatsappNumber)){
+    alert("কোডে whatsappNumber-এর জায়গায় নিজের WhatsApp নম্বর বসিয়ে আবার Commit করুন।");
+    return;
+  }
+
+  const f=new FormData(this);
+  const lines=ids.map(id=>{
+    const p=products.find(x=>x.id===Number(id));
+    return `${p.name} × ${cart[id]} = ৳${money(p.price*cart[id])}`;
+  });
+  const total=ids.reduce((sum,id)=>{
+    const p=products.find(x=>x.id===Number(id));
+    return sum+p.price*cart[id];
+  },0);
+
+  const message=[
+    "নতুন অর্ডার — Khushbu Perfume",
+    "",
+    "নাম: "+f.get("customer"),
+    "মোবাইল: "+f.get("phone"),
+    "ঠিকানা: "+f.get("address"),
+    "",
+    "পণ্যের বিবরণ:",
+    ...lines,
+    "",
+    "মোট পণ্যমূল্য: ৳"+money(total),
+    "অতিরিক্ত নির্দেশনা: "+(f.get("note")||"নেই"),
+    "",
+    "দয়া করে অর্ডারটি নিশ্চিত করুন।"
+  ].join("\n");
+
+  window.open("https://wa.me/"+whatsappNumber+"?text="+encodeURIComponent(message),"_blank");
+});
+
+renderProducts();
+renderCart();
+</script>
+</body>
+</html>
